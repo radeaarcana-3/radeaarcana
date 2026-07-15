@@ -1,1 +1,548 @@
-# radeaarcana
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radea Arcana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deepest:#0d0817;
+    --bg-deep:#160f28;
+    --bg-mid:#231539;
+    --purple:#3d2463;
+    --purple-soft:#4d3168;
+    --gold:#c9a24b;
+    --gold-light:#e8cf8a;
+    --ivory:#f2e9d8;
+    --ivory-dim:#c9bfae;
+    --mauve:#9c7fa0;
+    --rose:#a85d7a;
+    --line:rgba(201,162,75,0.22);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg-deepest);
+    color:var(--ivory);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.eyebrow,.nav-brand{
+    font-family:'Cinzel', serif;
+    letter-spacing:0.03em;
+  }
+
+  .utility{
+    font-family:'Jost', sans-serif;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  img,svg{display:block;max-width:100%;}
+
+  /* ===== background texture ===== */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(61,36,99,0.55), transparent 55%),
+      radial-gradient(ellipse at 85% 30%, rgba(168,93,122,0.18), transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(201,162,75,0.10), transparent 60%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, rgba(242,233,216,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 80% 15%, rgba(242,233,216,0.5), transparent),
+      radial-gradient(1px 1px at 60% 70%, rgba(242,233,216,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 30% 80%, rgba(242,233,216,0.4), transparent),
+      radial-gradient(1px 1px at 90% 60%, rgba(242,233,216,0.5), transparent),
+      radial-gradient(1.5px 1.5px at 45% 40%, rgba(242,233,216,0.55), transparent),
+      radial-gradient(1px 1px at 15% 55%, rgba(242,233,216,0.4), transparent),
+      radial-gradient(1.5px 1.5px at 70% 90%, rgba(242,233,216,0.45), transparent);
+    background-repeat:no-repeat;
+    opacity:0.9;
+  }
+
+  main, header, footer{position:relative;z-index:1;}
+
+  /* ===== nav ===== */
+  nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 6vw;
+    background:linear-gradient(to bottom, rgba(13,8,23,0.92), rgba(13,8,23,0));
+    backdrop-filter:blur(2px);
+  }
+
+  .nav-brand{
+    font-size:19px;
+    color:var(--gold-light);
+    font-weight:600;
+  }
+  .nav-brand span{color:var(--ivory-dim);font-weight:400;}
+
+  .nav-links{
+    display:flex;
+    gap:36px;
+    font-size:14px;
+  }
+  .nav-links a{
+    font-family:'Jost',sans-serif;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ivory-dim);
+    transition:color .3s ease;
+    position:relative;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible{color:var(--gold-light);}
+  .nav-links a:focus-visible{outline:1px solid var(--gold);outline-offset:6px;}
+
+  .nav-cta{
+    font-family:'Jost',sans-serif;
+    font-size:13px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    border:1px solid var(--gold);
+    color:var(--gold-light);
+    padding:9px 20px;
+    border-radius:2px;
+    transition:background .3s ease, color .3s ease;
+  }
+  .nav-cta:hover{background:var(--gold);color:var(--bg-deepest);}
+
+  .menu-toggle{display:none;}
+
+  /* ===== hero ===== */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:140px 6vw 80px;
+    position:relative;
+  }
+
+  .hero-inner{max-width:720px;position:relative;z-index:2;}
+
+  .moon-wrap{
+    width:150px;height:150px;
+    margin:0 auto 36px;
+    position:relative;
+  }
+
+  .moon-glow{
+    position:absolute;inset:-40px;
+    background:radial-gradient(circle, rgba(232,207,138,0.28), transparent 65%);
+    border-radius:50%;
+    animation:pulse-glow 6s ease-in-out infinite;
+  }
+  @keyframes pulse-glow{
+    0%,100%{opacity:0.6;transform:scale(1);}
+    50%{opacity:1;transform:scale(1.08);}
+  }
+
+  .logo-emblem{
+    width:100%;height:100%;
+    border-radius:50%;
+    object-fit:cover;
+    position:relative;
+    box-shadow:0 0 60px rgba(201,162,75,0.4), 0 0 0 1px var(--line);
+    border:1px solid rgba(201,162,75,0.4);
+  }
+
+  .eyebrow{
+    font: size 22px;;
+    color:var(--gold-light);
+    text-transform:uppercase;
+    letter-spacing:0.32em;
+    margin-bottom:18px;
+  }
+
+  .hero h1{
+    font-size:clamp(38px, 6vw, 62px);
+    font-weight:600;
+    color:var(--ivory);
+    line-height:1.15;
+    margin-bottom:20px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    font-family:'EB Garamond', serif;
+    color:var(--gold-light);
+    font-weight:500;
+  }
+
+  .hero p.lede{
+    font-size:28;
+    color:var(--ivory-dim);
+    max-width:520px;
+    margin:0 auto 38px;
+  }
+
+  .hero-ctas{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  .btn-primary{
+    background:var(--gold);
+    color:var(--bg-deepest);
+    font-family:'Jost',sans-serif;
+    font-size:14px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:15px 30px;
+    border-radius:2px;
+    font-weight:500;
+    transition:transform .25s ease, box-shadow .25s ease;
+    display:inline-block;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(201,162,75,0.3);}
+
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--ivory-dim);
+    font-family:'Jost',sans-serif;
+    font-size:14px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:15px 30px;
+    border-radius:2px;
+    transition:border-color .25s ease, color .25s ease;
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);}
+
+  /* ===== section shell ===== */
+  section{
+    padding:100px 6vw;
+    max-width:1180px;
+    margin:0 auto;
+    position:relative;
+  }
+
+  .section-head{
+    text-align:center;
+    max-width:600px;
+    margin:0 auto 60px;
+  }
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{
+    font-size:clamp(28px,4vw,40px);
+    color:var(--ivory);
+    font-weight:600;
+    margin-bottom:16px;
+  }
+  .section-head p{color:var(--ivory-dim);font-size:17px;}
+
+  hr.divider{
+    border:none;
+    height:1px;
+    background:linear-gradient(to right, transparent, var(--gold), transparent);
+    margin:0 auto 60px;
+    max-width:120px;
+    opacity:0.6;
+  }
+
+  /* ===== layanan cards ===== */
+  .services{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:28px;
+  }
+
+  .card{
+    background:linear-gradient(160deg, var(--bg-mid), var(--bg-deep));
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:42px 32px;
+    position:relative;
+    overflow:hidden;
+    transition:transform .35s ease, border-color .35s ease;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--gold);}
+
+  .card::before{
+    content:"";
+    position:absolute;
+    top:-30%;right:-30%;
+    width:200px;height:200px;
+    background:radial-gradient(circle, rgba(201,162,75,0.12), transparent 70%);
+    pointer-events:none;
+  }
+
+  .card-icon{
+    width:52px;height:52px;
+    margin-bottom:24px;
+    color:var(--gold-light);
+  }
+
+  .card h3{
+    font-size:22px;
+    color:var(--ivory);
+    font-weight:600;
+    margin-bottom:14px;
+  }
+
+  .card p{color:var(--ivory-dim);font-size:16px;margin-bottom:20px;}
+
+  .card-price{
+    font-family:'Jost',sans-serif;
+    font-size:13px;
+    letter-spacing:0.08em;
+    color:var(--mauve);
+    text-transform:uppercase;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
+  .card-price strong{color:var(--gold-light);font-size:15px;}
+
+  /* ===== proses ===== */
+  .steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    position:relative;
+  }
+  .steps::before{
+    content:"";
+    position:absolute;
+    top:22px;left:10%;right:10%;
+    height:1px;
+    background:repeating-linear-gradient(to right, var(--gold) 0 6px, transparent 6px 14px);
+    opacity:0.4;
+    z-index:0;
+  }
+  .step{
+    text-align:center;
+    padding:0 16px;
+    position:relative;
+    z-index:1;
+  }
+  .step-num{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:var(--bg-deepest);
+    border:1px solid var(--gold);
+    color:var(--gold-light);
+    font-family:'Cinzel',serif;
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+  }
+  .step h4{font-size:17px;color:var(--ivory);margin-bottom:10px;font-family:'Cinzel',serif;font-weight:500;}
+  .step p{font-size:15px;color:var(--ivory-dim);}
+
+  /* ===== kontak ===== */
+  .contact{
+    background:linear-gradient(160deg, var(--purple), var(--bg-deep));
+    border-radius:6px;
+    padding:70px 6vw;
+    text-align:center;
+    border:1px solid var(--line);
+  }
+  .contact h2{font-size:clamp(26px,4vw,36px);color:var(--ivory);margin-bottom:16px;font-weight:600;}
+  .contact p{color:var(--ivory-dim);max-width:480px;margin:0 auto 34px;}
+
+  .contact-methods{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  footer{
+    padding:50px 6vw 40px;
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+  footer .nav-brand{display:block;margin-bottom:10px;}
+  footer p{color:var(--ivory-dim);font-size:14px;}
+
+  /* ===== reveal on scroll ===== */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ===== responsive ===== */
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .services, .testi-wrap{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr 1fr;gap:36px 0;}
+    .steps::before{display:none;}
+  }
+  @media (max-width:480px){
+    .steps{grid-template-columns:1fr;}
+    section{padding:80px 6vw;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" aria-hidden="true"></div>
+
+<nav>
+  <div class="nav-brand">Radea Arcana</span></div>
+  <div class="nav-links">
+    <a href="#layanan">Layanan</a>
+    <a href="#proses">Proses</a>
+  </div>
+  <a href="#kontak" class="nav-cta">Booking</a>
+</nav>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="moon-wrap" aria-hidden="true">
+        <div class="moon-glow"></div>
+        <img src="logo-radea.jpeg" alt="Radea Arcana" class="logo-emblem">
+      </div>
+      <div class="eyebrow">Ruang Terawang &amp; Pemulihan Energi</div>
+      <h1>Dengar apa kata <em>semesta</em>,<br>dan mereka yang mendahului</h1>
+      <p class="lede">Konsultasi tarot, pembersihan energi, serta gambar dan pesan leluhur dipandu dengan tenang, jujur, dan penuh penghormatan pada apa yang tak terlihat.</p>
+      <div class="hero-ctas">
+        <a href="#kontak" class="btn-primary">Mulai Konsultasi</a>
+        <a href="#layanan" class="btn-ghost">Lihat Layanan</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="layanan">
+    <div class="section-head reveal">
+      <div class="eyebrow">Layanan</div>
+      <h2>Tiga jalan, satu ketulusan</h2>
+      <p>Setiap layanan dijalani satu per satu, tidak terburu-buru, agar pesan yang datang benar-benar sampai.</p>
+    </div>
+    <div class="services">
+
+      <div class="card reveal">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="6" width="20" height="32" rx="2" stroke="currentColor" stroke-width="1.4"/>
+          <circle cx="20" cy="18" r="5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M14 30h12M16 34h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M32 12l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>Konsultasi Tarot</h3>
+        <p>Menerawang arah karier, cinta, atau keputusan besar melalui pembacaan kartu, disampaikan apa adanya tanpa menakut-nakuti.</p>
+        <div class="card-price">Mulai dari <strong>Rp 50.000</strong> Sepuasnya</div>
+      </div>
+
+      <div class="card reveal">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 6C24 6 14 18 14 27a10 10 0 0020 0c0-9-10-21-10-21z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M24 20v14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <h3>Pembersihan Energi</h3>
+        <p>Meredakan energi berat pada diri, rumah, atau tempat usaha, memulihkan rasa ringan dan tenang di ruang yang ditinggali.</p>
+        <div class="card-price">Mulai dari <strong>Rp 150.000</strong> / sesi</div>
+      </div>
+      <div class="card reveal">
+        <svg class="card-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="17" r="7" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M11 40c1-8 6-13 13-13s12 5 13 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M24 4v3M24 34v-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <h3>Gambar Leluhur</h3>
+        <p>Menuntun gambaran wajah dan pesan dari leluhur yang ingin tersampaikan, untuk mengenang sekaligus menjaga tali penghubung.</p>
+        <div class="card-price">Mulai dari <strong>Rp 100.000</strong> / sesi</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="proses">
+    <div class="section-head reveal">
+      <div class="eyebrow">Proses</div>
+      <h2>Bagaimana sesi berjalan</h2>
+      <p>Empat langkah sederhana, dari pesan pertama hingga hasil di tangan Anda.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h4>Hubungi</h4>
+        <p>Kirim pesan lewat WhatsApp atau DM Tiktok, ceritakan apa yang ingin ditanyakan atau dirasakan.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h4>Tentukan Layanan &amp; Pembayaran</h4>
+        <p>Pilih layanan yang diinginkan, lalu lakukan pembayaran. Bukti transfer dikirimkan untuk konfirmasi.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h4>Sesi Berlangsung</h4>
+        <p>Dijalankan secara daring, dengan waktu dan ruang yang tenang.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">4</div>
+        <h4>Terima Hasil</h4>
+        <p>Rangkuman pembacaan atau gambar dikirimkan, lengkap dengan penjelasannya.</p>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="kontak">
+    <div class="contact reveal">
+      <div class="eyebrow">Kontak</div>
+      <h2>Siap memulai sesi Anda?</h2>
+      <p>Hubungi lewat WhatsApp untuk atur jadwal, atau kirim pesan lewat Instagram. Balasan biasanya dalam 1×24 jam.</p>
+      <div class="contact-methods">
+        <a href="https://wa.me/6281514665524" class="btn-primary" target="_blank" rel="noopener">Chat via WhatsApp</a>
+        <a href="https://www.instagram.com/radea_arcana" class="btn-ghost" target="_blank" rel="noopener">Kunjungi Instagram</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="nav-brand">Radea <span>Arcana</span></div>
+  <p>© 2026 Radea Arcana · Tarot, Pembersihan Energi &amp; Pesan Leluhur</p>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
