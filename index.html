@@ -34,12 +34,6 @@
     font-size:18px;
     line-height:1.6;
     overflow-x:hidden;
-    /* Memberi ruang di bawah agar konten tidak tertutup bottom nav di HP */
-    padding-bottom: 80px;
-  }
-
-  @media (min-width: 861px) {
-    body { padding-bottom: 0; }
   }
 
   h1,h2,h3,.eyebrow,.nav-brand{
@@ -114,6 +108,7 @@
     display:flex;
     gap:36px;
     font-size:14px;
+    align-items:center;
   }
   .nav-links a{
     font-family:'Jost',sans-serif;
@@ -139,7 +134,30 @@
   }
   .nav-cta:hover{background:var(--gold);color:var(--bg-deepest);}
 
-  .menu-toggle{display:none;}
+  /* Menu Toggle (Hamburger) - Tersembunyi di Desktop */
+  .menu-toggle{
+    display:none;
+    flex-direction:column;
+    justify-content:space-between;
+    width:22px;
+    height:16px;
+    background:transparent;
+    border:none;
+    cursor:pointer;
+    z-index:60;
+    padding:0;
+  }
+  .menu-toggle span{
+    display:block;
+    width:100%;
+    height:1.5px;
+    background-color:var(--gold-light);
+    transition:all 0.3s ease;
+  }
+
+  .mobile-only {
+    display: none;
+  }
 
   /* ===== hero ===== */
   .hero{
@@ -403,55 +421,65 @@
 
   /* ===== responsive ===== */
   @media (max-width:860px){
-    /* Nav Atas di HP: Tetap satu baris tipis dan elegan */
+    /* Header layout di HP */
     nav {
-      padding: 16px 5vw;
-      background: rgba(13,8,23,0.85);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(201,162,75,0.1);
+      padding: 18px 6vw;
+      background: rgba(13,8,23,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,162,75,0.08);
     }
-    
-    /* Sembunyikan links atas di HP karena pindah ke bawah */
-    nav .nav-links {
+
+    /* Sembunyikan tombol Booking bawaan desktop */
+    nav > .nav-cta {
       display: none;
     }
 
-    /* Pindahkan menu Layanan & Proses ke BAWAH LAYAR (Bottom Nav) khusus HP */
-    .bottom-nav {
-      display: flex !important;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(22, 15, 40, 0.92);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--line);
-      padding: 12px 0;
-      justify-content: space-around;
-      align-items: center;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
-    }
-
-    .bottom-nav a {
-      font-family: 'Jost', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ivory-dim);
+    /* Munculkan Hamburger */
+    .menu-toggle {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      transition: color 0.3s ease;
-    }
-    
-    .bottom-nav a:hover, .bottom-nav a:focus {
-      color: var(--gold-light);
     }
 
-    .bottom-nav svg {
-      width: 20px;
-      height: 20px;
-      color: inherit;
+    /* Efek animasi hamburger menjadi 'X' saat dibuka */
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Tampilan menu slide dari atas/samping di HP */
+    .nav-links {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 75%;
+      height: 100vh;
+      background: rgba(13, 8, 23, 0.98);
+      backdrop-filter: blur(12px);
+      border-left: 1px solid var(--line);
+      flex-direction: column;
+      justify-content: center;
+      gap: 36px;
+      transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 55;
+      padding: 40px;
+    }
+
+    .nav-links.active {
+      right: 0;
+    }
+
+    .nav-links a {
+      font-size: 18px;
+    }
+
+    .mobile-only {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
     }
 
     .services, .testi-wrap{grid-template-columns:1fr;}
@@ -475,27 +503,24 @@
 
 <nav>
   <div class="nav-brand">Radea <span>Arcana</span></div>
-  <div class="nav-links">
+  
+  <!-- Menu Navigasi -->
+  <div class="nav-links" id="navLinks">
     <a href="#layanan">Layanan</a>
     <a href="#proses">Proses</a>
+    <a href="#kontak" class="nav-cta mobile-only">Booking</a>
   </div>
-  <a href="#kontak" class="nav-cta">Booking</a>
-</nav>
 
-<div class="bottom-nav" style="display: none;">
-  <a href="#layanan">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-    <span>Layanan</span>
-  </a>
-  <a href="#proses">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-    <span>Proses</span>
-  </a>
-  <a href="#kontak">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-    <span>Booking</span>
-  </a>
-</div>
+  <!-- Tombol Booking Desktop -->
+  <a href="#kontak" class="nav-cta">Booking</a>
+
+  <!-- Tombol Hamburger (HP) -->
+  <button class="menu-toggle" id="menuToggle" aria-label="Buka Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
 
 <main>
   <section class="hero">
@@ -593,7 +618,8 @@
       <h2>Siap memulai sesi Anda?</h2>
       <p>Hubungi lewat WhatsApp untuk atur jadwal, atau kirim pesan lewat Instagram. Balasan biasanya dalam 1×24 jam.</p>
       <div class="contact-methods">
-        <a href="https://wa.me/6281514665524" class="btn-primary" target="_blank" rel="noopener">Chat via WhatsApp</a>
+        <!-- WhatsApp Link dengan Teks Pre-filled Baru -->
+        <a href="https://wa.me/6281514665524?text=halo%20kak%20mau%20konsultasi%20soal" class="btn-primary" target="_blank" rel="noopener">Chat via WhatsApp</a>
         <a href="https://www.instagram.com/radea_arcana" class="btn-ghost" target="_blank" rel="noopener">Kunjungi Instagram</a>
       </div>
     </div>
@@ -606,6 +632,24 @@
 </footer>
 
 <script>
+  // Logika Interaksi Hamburger Menu (HP)
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+
+  // Otomatis tutup menu saat salah satu link diklik
+  document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    });
+  });
+
+  // Reveal Animation on Scroll
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
