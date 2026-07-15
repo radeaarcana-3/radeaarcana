@@ -34,6 +34,12 @@
     font-size:18px;
     line-height:1.6;
     overflow-x:hidden;
+    /* Memberi ruang di bawah agar konten tidak tertutup bottom nav di HP */
+    padding-bottom: 80px;
+  }
+
+  @media (min-width: 861px) {
+    body { padding-bottom: 0; }
   }
 
   h1,h2,h3,.eyebrow,.nav-brand{
@@ -388,30 +394,71 @@
   .reveal{
     opacity:0;
     transform:translateY(24px);
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
     transition:opacity .8s ease, transform .8s ease;
   }
-  .reveal.in{opacity:1;transform:translateY(0);}
 
   /* ===== responsive ===== */
   @media (max-width:860px){
+    /* Nav Atas di HP: Tetap satu baris tipis dan elegan */
     nav {
-      flex-direction: column;
-      gap: 14px;
-      padding: 16px 6vw;
-      background: rgba(13,8,23,0.95);
-      backdrop-filter: blur(6px);
+      padding: 16px 5vw;
+      background: rgba(13,8,23,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,162,75,0.1);
     }
-    .nav-links{
+    
+    /* Sembunyikan links atas di HP karena pindah ke bawah */
+    nav .nav-links {
+      display: none;
+    }
+
+    /* Pindahkan menu Layanan & Proses ke BAWAH LAYAR (Bottom Nav) khusus HP */
+    .bottom-nav {
+      display: flex !important;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(22, 15, 40, 0.92);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.4);
+    }
+
+    .bottom-nav a {
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
       display: flex;
-      gap: 28px;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.3s ease;
     }
-    .nav-links a {
-      font-size: 13px;
+    
+    .bottom-nav a:hover, .bottom-nav a:focus {
+      color: var(--gold-light);
     }
+
+    .bottom-nav svg {
+      width: 20px;
+      height: 20px;
+      color: inherit;
+    }
+
     .services, .testi-wrap{grid-template-columns:1fr;}
     .steps{grid-template-columns:1fr 1fr;gap:36px 0;}
     .steps::before{display:none;}
   }
+
   @media (max-width:480px){
     .steps{grid-template-columns:1fr;}
     section{padding:80px 6vw;}
@@ -434,6 +481,21 @@
   </div>
   <a href="#kontak" class="nav-cta">Booking</a>
 </nav>
+
+<div class="bottom-nav" style="display: none;">
+  <a href="#layanan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+    <span>Layanan</span>
+  </a>
+  <a href="#proses">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+    <span>Proses</span>
+  </a>
+  <a href="#kontak">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    <span>Booking</span>
+  </a>
+</div>
 
 <main>
   <section class="hero">
